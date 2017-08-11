@@ -59,7 +59,7 @@ Stack.prototype.pop = function() {
 * Return Top/Peek Element
 */
 Stack.prototype.Top = function() {
-    this.array[this.currentIndex];
+    return this.array[this.currentIndex];
 }
 
 /*
@@ -69,7 +69,7 @@ Stack.prototype.Top = function() {
 Stack.prototype.pushAtBottom = function(data){
     if(this.isEmpty()){
         this.push(data);
-    }else{
+    } else {
         let popped = this.pop();
         this.pushAtBottom(data);
         this.push(popped);
@@ -84,6 +84,33 @@ Stack.prototype.reverse = function() {
         let data = this.pop();
         this.reverse();
         this.pushAtBottom(data);
+    }
+}
+
+/*
+* Compare the data and insert
+* Note: This uses Recursion to achive it.
+*/
+Stack.prototype.compareAndInsert = function(data){
+    if(this.isEmpty()){
+        this.push(data);
+    } else if (data < this.Top()){
+        let popped = this.pop();
+        this.compareAndInsert(data);
+        this.push(popped);
+    } else {
+        this.push(data);
+    }
+}
+
+/*
+* Sort the Stack
+*/
+Stack.prototype.sort = function(){
+    if (this.currentIndex != -1){
+        let data = this.pop();
+        this.sort();
+        this.compareAndInsert(data);
     }
 }
 
@@ -123,9 +150,9 @@ Stack.prototype.listItems = function () {
     console.log('Attempt to pop on an empty stack throws message: ' + stack.pop());
 
     //Push again
+    stack.push(3);
     stack.push(1);
     stack.push(2);
-    stack.push(3);
     console.log('Items before Reverse')
     stack.listItems();
 
@@ -133,4 +160,9 @@ Stack.prototype.listItems = function () {
     console.log('Items after Reverse')
     stack.reverse();
     stack.listItems();
+
+    //Sort
+    stack.sort();
+    stack.listItems();
+    
 })(new Stack(3));
