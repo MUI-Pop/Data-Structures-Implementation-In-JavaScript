@@ -41,20 +41,21 @@ BinarySearchTree.prototype.insert = function(data){
 BinarySearchTree.prototype.getMin = function(root) {
     if(root === null){
         return null;
+    } else if(root.left === null) {
+        return root.data;
     }
-
+    return this.getMin(root.left);
+    
+    /* 
     while (root.left != null){
         root = root.left;
-    }
-
-    return root.data;
+    } */
 };
 
 BinarySearchTree.prototype.getMax = function(root) {
     if(root === null){
         return null;
     }
-
     while (root.right != null){
         root = root.right;
     }
@@ -80,6 +81,37 @@ BinarySearchTree.prototype.getHeightOfTree = function(root) {
 BinarySearchTree.prototype.printHeightOfTree = function(root){
     console.log('Height of the Tree is: ' + this.getHeightOfTree(this.root));
 };
+
+/*
+* Level Order Traversal
+*/
+BinarySearchTree.prototype.levelOrderTraversal = function(root) {
+    if(root === null){
+        return;
+    };
+
+    let queue = [];
+    queue.push(root);
+
+    while(queue.length !=0){
+        let node = queue.shift();
+        console.log(node.data);
+        if(node.left != null)
+            queue.push(node.left);
+        if(node.right != null)
+            queue.push(node.right);
+    }
+
+};
+
+/*
+* Print Level-Order Traversal
+*/
+BinarySearchTree.prototype.printLevelOrderTraversal = function() {
+    console.log('Printing Level Order Traversal');
+    this.levelOrderTraversal(this.root);
+};
+
 
 /*
 * In Order Traversal
@@ -161,4 +193,6 @@ BinarySearchTree.prototype.printPostOrderTraveral = function() {
     bst.printPostOrderTraveral();
 
     bst.printPreOrderTraveral();
+
+    bst.printLevelOrderTraversal();
 })(new BinarySearchTree());
